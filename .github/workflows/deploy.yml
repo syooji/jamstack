@@ -6,6 +6,8 @@ on:
     branches: [main, master]
   # GitHubの画面から手動実行も可能にする
   workflow_dispatch:
+  # microCMSなどの外部Webhookからの通知を受け取って自動実行
+  repository_dispatch:
 
 # GitHub Pagesへのデプロイに必要な権限設定
 permissions:
