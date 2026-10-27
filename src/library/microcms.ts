@@ -141,3 +141,25 @@ export const getBlogDetail = async (contentId: string, queries?: MicroCMSQueries
   });
 };
 
+/**
+ * About（固定ページ）の型定義
+ */
+export type About = {
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+  revisedAt?: string;
+  title: string;
+  content?: string;
+  [key: string]: any;
+};
+
+/**
+ * About（固定ページ）を取得する関数
+ */
+export const getAbout = async () => {
+  return await client.get<About>({
+    endpoint: 'about',
+  });
+};
+

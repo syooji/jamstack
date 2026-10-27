@@ -5,4 +5,5 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://syooji.github.io',
   base: '/jamstack',
+  trailingSlash: 'always',
 });
