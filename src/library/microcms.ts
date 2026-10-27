@@ -13,6 +13,16 @@ export type Category = {
 };
 
 /**
+ * 関連情報カスタムフィールドの型定義
+ */
+export type RelatedInformationCF = {
+  fieldId: 'relatedInformationCF';
+  title?: string;
+  summary?: string;
+  [key: string]: any;
+};
+
+/**
  * ニュース記事の型定義
  */
 export type News = {
@@ -24,6 +34,7 @@ export type News = {
   title: string;
   content?: string;
   category?: Category;
+  relatedInformationCF?: RelatedInformationCF;
   [key: string]: any;
 };
 

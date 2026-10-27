@@ -126,6 +126,36 @@ function formatDate(dateString?: string): string {
         height: auto;
         border-radius: 6px;
       }
+      .related-info {
+        margin-top: 40px;
+        padding: 20px 24px;
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid var(--color-primary);
+        border-radius: 8px;
+      }
+      .related-info-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #1e40af;
+        margin: 0 0 12px 0;
+      }
+      .related-info-icon {
+        font-size: 1.1rem;
+      }
+      .related-info-summary {
+        color: var(--color-text);
+        line-height: 1.7;
+      }
+      .related-info-summary :global(p) {
+        margin: 0 0 8px 0;
+      }
+      .related-info-summary :global(p:last-child) {
+        margin-bottom: 0;
+      }
     </style>
   </head>
   <body>
@@ -140,6 +170,18 @@ function formatDate(dateString?: string): string {
           </div>
           <h1>{news.title}</h1>
           <div class="content" set:html={news.content} />
+
+          {news.relatedInformationCF && (
+            <aside class="related-info">
+              <h2 class="related-info-header">
+                <span class="related-info-icon" aria-hidden="true">📌</span>
+                {news.relatedInformationCF.title || '関連情報'}
+              </h2>
+              {news.relatedInformationCF.summary && (
+                <div class="related-info-summary" set:html={news.relatedInformationCF.summary} />
+              )}
+            </aside>
+          )}
         </article>
       ) : (
         <p>記事が見つかりませんでした。</p>
