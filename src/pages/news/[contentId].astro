@@ -171,12 +171,14 @@ function formatDate(dateString?: string): string {
           <h1>{news.title}</h1>
           <div class="content" set:html={news.content} />
 
-          {news.relatedInformationCF && (
+          {news.relatedInformationCF && (news.relatedInformationCF.title || news.relatedInformationCF.summary) && (
             <aside class="related-info">
-              <h2 class="related-info-header">
-                <span class="related-info-icon" aria-hidden="true">📌</span>
-                {news.relatedInformationCF.title || '関連情報'}
-              </h2>
+              {news.relatedInformationCF.title && (
+                <h2 class="related-info-header">
+                  <span class="related-info-icon" aria-hidden="true">📌</span>
+                  {news.relatedInformationCF.title}
+                </h2>
+              )}
               {news.relatedInformationCF.summary && (
                 <div class="related-info-summary" set:html={news.relatedInformationCF.summary} />
               )}
