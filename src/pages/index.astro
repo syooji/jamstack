@@ -37,7 +37,7 @@ function formatDate(dateString: string): string {
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`.replace('//', '/')} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>お知らせ一覧 - Jamstackサイト</title>
     <style>
@@ -241,7 +241,7 @@ function formatDate(dateString: string): string {
           <ul class="news-list">
             {newsList.map((item) => (
               <li class="news-item">
-                <a href={`/news/${item.id}`} class="news-link">
+                <a href={`${import.meta.env.BASE_URL}/news/${item.id}`.replace('//', '/')} class="news-link">
                   <div class="news-meta">
                     <span class="news-date">
                       {formatDate(item.publishedAt || item.createdAt)}
@@ -270,7 +270,7 @@ function formatDate(dateString: string): string {
               const visual = item.mainVisual || item.eyecatch;
               return (
                 <li class="news-item">
-                  <a href={`/blog/${item.id}`} class="news-link">
+                  <a href={`${import.meta.env.BASE_URL}/blog/${item.id}`.replace('//', '/')} class="news-link">
                     <div class="blog-item-content">
                       {visual?.url && (
                         <div class="blog-thumb">
