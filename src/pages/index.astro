@@ -1,35 +1,35 @@
 ---
-import { getNewsList, getBanner, getBlogList, type Banner, type Blog } from '../library/microcms';
+import { getNewsList, getBanner, getBlogList, type Banner, type Blog } from "../library/microcms";
 
 // microCMSからデータ一覧を取得（APIキー未設定時は空配列でフォールバック）
 let newsList: any[] = [];
 let blogList: Blog[] = [];
 let banner: Banner | null = null;
-let errorMessage = '';
+let errorMessage = "";
 
 try {
   const [newsResponse, bannerResponse, blogResponse] = await Promise.all([
-    getNewsList({ orders: '-publishedAt' }),
+    getNewsList({ orders: "-publishedAt" }),
     getBanner().catch(() => null),
-    getBlogList({ orders: '-publishedAt' }).catch(() => ({ contents: [] })),
+    getBlogList({ orders: "-publishedAt" }).catch(() => ({ contents: [] })),
   ]);
   newsList = newsResponse.contents;
   banner = bannerResponse;
   blogList = blogResponse.contents;
 } catch (error: any) {
-  errorMessage = 'microCMSからのデータ取得に失敗しました。.envのAPIキーが正しく設定されているかご確認ください。';
+  errorMessage = "microCMSからのデータ取得に失敗しました。.envのAPIキーが正しく設定されているかご確認ください。";
 }
 
 /**
  * 日付を YYYY/MM/DD 形式にフォーマットする関数
  */
 function formatDate(dateString: string): string {
-  if (!dateString) return '';
+  if (!dateString) return "";
   const date = new Date(dateString);
-  return date.toLocaleDateString('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
+  return date.toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
   });
 }
 ---
@@ -37,7 +37,7 @@ function formatDate(dateString: string): string {
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`.replace('//', '/')} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`.replace("//", "/")} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>お知らせ一覧 - Jamstackサイト</title>
     <style>
@@ -98,7 +98,9 @@ function formatDate(dateString: string): string {
         border: 1px solid var(--color-border);
         border-radius: 8px;
         margin-bottom: 16px;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
       }
       .news-item:hover {
         transform: translateY(-2px);
@@ -153,7 +155,9 @@ function formatDate(dateString: string): string {
         overflow: hidden;
         border: 1px solid var(--color-border);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
       }
       .banner-link:hover {
         transform: translateY(-2px);
@@ -193,110 +197,98 @@ function formatDate(dateString: string): string {
   <body>
     <div class="container">
       <header>
-        <h1>お知らせ</h1>
+        <h1>お知らせsです</h1>
         <p class="subtitle">microCMS + Astro で構築されたサイトです</p>
       </header>
 
-      {banner && banner.image && (
-        <section class="banner-area">
-          {banner.url ? (
-            <a href={banner.url} class="banner-link" target="_blank" rel="noopener noreferrer">
-              <img
-                src={banner.image.url}
-                alt={banner.description || 'バナー'}
-                width={banner.image.width}
-                height={banner.image.height}
-                class="banner-image"
-              />
-            </a>
-          ) : (
-            <div class="banner-link">
-              <img
-                src={banner.image.url}
-                alt={banner.description || 'バナー'}
-                width={banner.image.width}
-                height={banner.image.height}
-                class="banner-image"
-              />
-            </div>
-          )}
-        </section>
-      )}
+      {
+        banner && banner.image && (
+          <section class="banner-area">
+            {banner.url ? (
+              <a href={banner.url} class="banner-link" target="_blank" rel="noopener noreferrer">
+                <img src={banner.image.url} alt={banner.description || "バナー"} width={banner.image.width} height={banner.image.height} class="banner-image" />
+              </a>
+            ) : (
+              <div class="banner-link">
+                <img src={banner.image.url} alt={banner.description || "バナー"} width={banner.image.width} height={banner.image.height} class="banner-image" />
+              </div>
+            )}
+          </section>
+        )
+      }
 
       <main>
-        {errorMessage && (
-          <div class="alert">
-            <p>{errorMessage}</p>
-          </div>
-        )}
+        {
+          errorMessage && (
+            <div class="alert">
+              <p>{errorMessage}</p>
+            </div>
+          )
+        }
 
         <section class="section">
           <h2 class="section-title">お知らせ</h2>
-          {newsList.length === 0 && !errorMessage && (
-            <div class="empty-state">
-              <p>お知らせはまだ投稿されていません。</p>
-            </div>
-          )}
+          {
+            newsList.length === 0 && !errorMessage && (
+              <div class="empty-state">
+                <p>お知らせはまだ投稿されていません。</p>
+              </div>
+            )
+          }
 
           <ul class="news-list">
-            {newsList.map((item) => (
-              <li class="news-item">
-                <a href={`${import.meta.env.BASE_URL}/news/${item.id}`.replace('//', '/')} class="news-link">
-                  <div class="news-meta">
-                    <span class="news-date">
-                      {formatDate(item.publishedAt || item.createdAt)}
-                    </span>
-                    {item.category && (
-                      <span class="category-badge">{item.category.name}</span>
-                    )}
-                  </div>
-                  <h3 class="news-title">{item.title}</h3>
-                </a>
-              </li>
-            ))}
+            {
+              newsList.map((item) => (
+                <li class="news-item">
+                  <a href={`${import.meta.env.BASE_URL}/news/${item.id}`.replace("//", "/")} class="news-link">
+                    <div class="news-meta">
+                      <span class="news-date">{formatDate(item.publishedAt || item.createdAt)}</span>
+                      {item.category && <span class="category-badge">{item.category.name}</span>}
+                    </div>
+                    <h3 class="news-title">{item.title}</h3>
+                  </a>
+                </li>
+              ))
+            }
           </ul>
         </section>
 
         <section class="section" style="margin-top: 48px;">
           <h2 class="section-title">ブログ</h2>
-          {blogList.length === 0 && !errorMessage && (
-            <div class="empty-state">
-              <p>ブログ記事はまだ投稿されていません。</p>
-            </div>
-          )}
+          {
+            blogList.length === 0 && !errorMessage && (
+              <div class="empty-state">
+                <p>ブログ記事はまだ投稿されていません。</p>
+              </div>
+            )
+          }
 
           <ul class="news-list">
-            {blogList.map((item) => {
-              const visual = item.mainVisual || item.eyecatch;
-              return (
-                <li class="news-item">
-                  <a href={`${import.meta.env.BASE_URL}/blog/${item.id}`.replace('//', '/')} class="news-link">
-                    <div class="blog-item-content">
-                      {visual?.url && (
-                        <div class="blog-thumb">
-                          <img
-                            src={visual.url}
-                            alt={item.title || 'メインビジュアル'}
-                            loading="lazy"
-                          />
+            {
+              blogList.map((item) => {
+                const visual = item.mainVisual || item.eyecatch;
+                return (
+                  <li class="news-item">
+                    <a href={`${import.meta.env.BASE_URL}/blog/${item.id}`.replace("//", "/")} class="news-link">
+                      <div class="blog-item-content">
+                        {visual?.url && (
+                          <div class="blog-thumb">
+                            <img src={visual.url} alt={item.title || "メインビジュアル"} loading="lazy" />
+                          </div>
+                        )}
+                        <div class="blog-body">
+                          <div class="news-meta">
+                            <span class="news-date">{formatDate(item.publishedAt || item.createdAt)}</span>
+                            {item.category && <span class="category-badge">{item.category.name}</span>}
+                          </div>
+                          <h3 class="news-title">{item.title}</h3>
                         </div>
-                      )}
-                      <div class="blog-body">
-                        <div class="news-meta">
-                          <span class="news-date">
-                            {formatDate(item.publishedAt || item.createdAt)}
-                          </span>
-                          {item.category && (
-                            <span class="category-badge">{item.category.name}</span>
-                          )}
-                        </div>
-                        <h3 class="news-title">{item.title}</h3>
                       </div>
-                    </div>
-                  </a>
-                </li>
-              );
-            })}
+                    </a>
+                  </li>
+                );
+              })
+            }
           </ul>
         </section>
       </main>
