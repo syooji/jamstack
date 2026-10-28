@@ -17,7 +17,7 @@ permissions:
 
 # デプロイが重複しないように直列化
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: false
 
 jobs:
