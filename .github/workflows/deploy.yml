@@ -2,7 +2,7 @@ name: Trigger Cloudflare Pages Deploy
 
 on:
   repository_dispatch:
-    types: [microcms-update]
+    types: [microcms]
   workflow_dispatch:
 
 permissions:
