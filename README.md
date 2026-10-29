@@ -31,7 +31,7 @@ Astro で静的サイトをビルドし、コンテンツは microCMS、ホス�
 | 場所 | 何があるか |
 | --- | --- |
 | プロジェクト直下の `.env` | ローカル開発用の `MICROCMS_*` |
-| Cloudflare Pages → 対象プロジェクト → Settings → Environment variables | 本番ビルド用の `MICROCMS_*` |
+| Cloudflare Pages（Compute > Workers & Pages） → 対象プロジェクト → Settings → Environment variables（Variables and secrets） | 本番ビルド用の `MICROCMS_*` |
 | microCMS → 各 API → API設定 → Webhook | GitHub トークン・リポジトリ情報・トリガーイベント名 |
 | GitHub → Settings → Developer settings → Personal access tokens | PAT の発行・失効 |
 | GitHub → リポジトリ Settings → Secrets and variables → Actions | 旧 Pages 用 Secrets（残っている場合） |
