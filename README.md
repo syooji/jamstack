@@ -10,6 +10,38 @@ Astro で静的サイトをビルドし、コンテンツは microCMS、ホス�
 | GitHub | https://github.com/syooji/jamstack |
 | Cloudflare Pages | https://dash.cloudflare.com/622e90324fdbf6f0fbffb88af47d55ab/pages/view/jamstack |
 
+## 秘匿情報・認証情報の所在
+
+**値そのものはこの README や Git 管理下のファイルに書かない。** 置き場所だけをここにまとめる。
+
+| 情報 | 用途 | 置き場所 | Git 管理 |
+| --- | --- | --- | --- |
+| `MICROCMS_SERVICE_DOMAIN` | microCMS 接続（サービス ID） | ① ローカル `.env` ② Cloudflare Pages の Environment variables | `.env` は `.gitignore` 済み。リポジトリに直書きしない |
+| `MICROCMS_API_KEY` | microCMS API 呼び出し | 同上 | 同上 |
+| GitHub Personal Access Token（PAT） | microCMS Webhook が `repository_dispatch` を送るため | microCMS の各 API「Webhook」設定画面に保存。発行元は GitHub の Developer settings | リポジトリに置かない |
+| （任意）GitHub Actions Secrets の `MICROCMS_*` | かつての GitHub Pages ビルド用 | リポジトリ Settings → Secrets and variables → Actions | GitHub 上のみ。現構成の Cloudflare ビルドでは **必須ではない** |
+
+### コード上の参照（値は書かれていない）
+
+- `src/library/microcms.ts` … `import.meta.env.MICROCMS_SERVICE_DOMAIN` / `MICROCMS_API_KEY` を参照
+- `.github/workflows/deploy.yml` … トークンや API キーは含まない（空コミット push のみ）
+
+### 画面上の設定場所（値の確認・更新）
+
+| 場所 | 何があるか |
+| --- | --- |
+| プロジェクト直下の `.env` | ローカル開発用の `MICROCMS_*` |
+| Cloudflare Pages → 対象プロジェクト → Settings → Environment variables | 本番ビルド用の `MICROCMS_*` |
+| microCMS → 各 API → API設定 → Webhook | GitHub トークン・リポジトリ情報・トリガーイベント名 |
+| GitHub → Settings → Developer settings → Personal access tokens | PAT の発行・失効 |
+| GitHub → リポジトリ Settings → Secrets and variables → Actions | 旧 Pages 用 Secrets（残っている場合） |
+
+### 注意
+
+- パスワードや API キーを `memo.txt` などに書いてコミットしない（過去に同様のメモが追跡されたことがある）
+- README の「関連リンク」にあるサービス ID やダッシュボード URL は識別子であり、API キーや PAT とは別物
+- 漏えいが疑われたら、microCMS の API キー再発行と GitHub PAT の失効・再作成を行う
+
 ## 全体の流れ
 
 ```text
