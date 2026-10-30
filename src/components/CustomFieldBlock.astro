@@ -1,0 +1,64 @@
+---
+import ContentRefCard from './ContentRefCard.astro';
+import type { AboutCustomField } from '../library/microcms';
+
+interface Props {
+  block: AboutCustomField;
+  depth?: number;
+}
+
+const { block, depth = 0 } = Astro.props;
+const nested = block['custom-1-1'] ?? [];
+const columns = block['column-1'] ?? [];
+const headingClass =
+  depth === 0
+    ? 'text-xl font-bold text-gray-900'
+    : depth === 1
+      ? 'text-lg font-semibold text-gray-800'
+      : 'text-base font-semibold text-gray-700';
+---
+
+<section class:list={['rounded-lg border border-gray-200 bg-gray-50/80 p-5', depth > 0 && 'ml-0 sm:ml-3']}>
+  {block.title && <h3 class:list={['mb-4', headingClass]}>{block.title}</h3>}
+
+  {
+    columns.length > 0 && (
+      <div class="mb-4 space-y-3">
+        <p class="m-0 text-xs font-semibold uppercase tracking-wide text-gray-400">関連お知らせ</p>
+        <ul class="m-0 grid list-none gap-3 p-0">
+          {columns.map((item) => (
+            <li>
+              <ContentRefCard
+                id={item.id}
+                title={item.title}
+                hrefBase="news"
+                excerptHtml={item.content}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  {
+    nested.length > 0 && (
+      <div class="space-y-3">
+        {depth === 0 && (
+          <p class="m-0 text-xs font-semibold uppercase tracking-wide text-gray-400">ネストしたカスタムフィールド</p>
+        )}
+        <div class="space-y-3">
+          {nested.map((child) => (
+            <Astro.self block={child} depth={depth + 1} />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  {
+    !block.title && columns.length === 0 && nested.length === 0 && (
+      <p class="m-0 text-sm text-gray-400">（空のカスタムフィールド）</p>
+    )
+  }
+</section>

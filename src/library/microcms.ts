@@ -142,6 +142,38 @@ export const getBlogDetail = async (contentId: string, queries?: MicroCMSQueries
 };
 
 /**
+ * About 内のコンテンツ参照（お知らせ / ブログ）
+ */
+export type AboutContentRef = {
+  id: string;
+  title?: string;
+  content?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+  revisedAt?: string;
+  mainVisual?: {
+    url: string;
+    height?: number;
+    width?: number;
+  };
+  category?: { id: string; name?: string };
+  relatedInformationCF?: RelatedInformationCF;
+  [key: string]: any;
+};
+
+/**
+ * About のカスタムフィールド（入れ子可能）
+ */
+export type AboutCustomField = {
+  fieldId?: string;
+  title?: string;
+  'column-1'?: AboutContentRef[];
+  'custom-1-1'?: AboutCustomField[];
+  [key: string]: any;
+};
+
+/**
  * About（固定ページ）の型定義
  */
 export type About = {
@@ -151,6 +183,10 @@ export type About = {
   revisedAt?: string;
   title: string;
   content?: string;
+  /** 複数コンテンツ参照（ブログなど） */
+  'fukusu-1-1'?: AboutContentRef[];
+  /** カスタムフィールド（オブジェクト） */
+  'custom-1-1'?: AboutCustomField;
   [key: string]: any;
 };
 

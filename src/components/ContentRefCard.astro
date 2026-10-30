@@ -1,0 +1,35 @@
+---
+import { sitePath } from '../library/site';
+
+interface Props {
+  id: string;
+  title?: string;
+  hrefBase: 'blog' | 'news';
+  imageUrl?: string;
+  excerptHtml?: string;
+}
+
+const { id, title, hrefBase, imageUrl, excerptHtml } = Astro.props;
+const href = sitePath(`/${hrefBase}/${id}/`);
+---
+
+<a
+  href={href}
+  class="flex gap-4 rounded-lg border border-gray-200 bg-white p-4 text-inherit no-underline transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
+>
+  {
+    imageUrl && (
+      <div class="h-16 w-24 shrink-0 overflow-hidden rounded-md bg-gray-100">
+        <img src={imageUrl} alt={title || ''} loading="lazy" class="h-full w-full object-cover" />
+      </div>
+    )
+  }
+  <div class="min-w-0 flex-1">
+    <p class="m-0 text-base font-semibold text-gray-900">{title || '(無題)'}</p>
+    {
+      excerptHtml && (
+        <div class="cms-content mt-1 line-clamp-2 text-sm text-gray-500" set:html={excerptHtml} />
+      )
+    }
+  </div>
+</a>
