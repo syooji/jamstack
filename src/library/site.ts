@@ -1,5 +1,5 @@
 /** サイト共通の仮情報（ロゴ画像の代わりに社名テキストを使用） */
-export const SITE_NAME = 'Company';
+export const SITE_NAME = 'Demo Site';
 
 export type NavItem = {
   href: string;
