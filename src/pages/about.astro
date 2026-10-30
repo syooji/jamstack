@@ -1,7 +1,8 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
 import { getAbout, type About } from "../library/microcms";
+import { sitePath } from "../library/site";
 
-// Aboutページのデータ取得（ビルド時）
 let about: About | null = null;
 try {
   about = await getAbout();
@@ -9,65 +10,19 @@ try {
   console.error("About取得エラー", e);
 }
 ---
-<html lang="ja">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`.replace('//', '/')} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{about?.title || "About"} - Jamstackサイト</title>
-    <style>
-      :root {
-        --color-primary: #2563eb;
-        --color-text: #1f2937;
-        --color-bg: #f9fafb;
-        --color-card-bg: #ffffff;
-        --color-border: #e5e7eb;
-      }
-      body {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        background-color: var(--color-bg);
-        color: var(--color-text);
-        line-height: 1.6;
-      }
-      .container {
-        max-width: 800px;
-        margin: 40px auto;
-        padding: 0 20px;
-      }
-      .back-link {
-        display: inline-block;
-        margin-bottom: 24px;
-        color: var(--color-primary);
-        text-decoration: none;
-        font-size: 0.95rem;
-      }
-      .back-link:hover {
-        text-decoration: underline;
-      }
-      article {
-        background: var(--color-card-bg);
-        border: 1px solid var(--color-border);
-        border-radius: 8px;
-        padding: 32px;
-      }
-      h1 {
-        margin: 0 0 24px 0;
-        font-size: 2rem;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <a href="/" class="back-link">← トップへ戻る</a>
-      {about ? (
-        <article>
-          <h1>{about.title}</h1>
-          {about.content && <div set:html={about.content} />}
-        </article>
-      ) : (
-        <p>About情報が取得できませんでした。</p>
-      )}
-    </div>
-  </body>
-</html>
+
+<BaseLayout title={about?.title || "About"}>
+  <a href={sitePath("/")} class="mb-6 inline-block text-[0.95rem] text-blue-600 no-underline hover:underline">
+    ← トップへ戻る
+  </a>
+  {
+    about ? (
+      <article class="rounded-lg border border-gray-200 bg-white p-8">
+        <h1 class="mb-6 text-3xl font-bold text-gray-900">{about.title}</h1>
+        {about.content && <div class="cms-content" set:html={about.content} />}
+      </article>
+    ) : (
+      <p>About情報が取得できませんでした。</p>
+    )
+  }
+</BaseLayout>

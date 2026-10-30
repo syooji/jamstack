@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+/* microCMS の HTML 本文向け（set:html で入る要素） */
+@layer components {
+  .cms-content {
+    @apply leading-relaxed text-gray-800;
+  }
+
+  .cms-content :where(p) {
+    @apply mb-4;
+  }
+
+  .cms-content :where(p:last-child) {
+    @apply mb-0;
+  }
+
+  .cms-content :where(h2) {
+    @apply mt-8 mb-3 text-xl font-bold;
+  }
+
+  .cms-content :where(h3) {
+    @apply mt-6 mb-2 text-lg font-semibold;
+  }
+
+  .cms-content :where(ul) {
+    @apply mb-4 list-disc pl-5;
+  }
+
+  .cms-content :where(ol) {
+    @apply mb-4 list-decimal pl-5;
+  }
+
+  .cms-content :where(a) {
+    @apply text-blue-600 underline underline-offset-2 hover:text-blue-700;
+  }
+
+  .cms-content :where(img) {
+    @apply my-4 h-auto max-w-full rounded-md;
+  }
+}

@@ -1,0 +1,34 @@
+---
+import { SITE_NAME, NAV_ITEMS, sitePath } from '../library/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-auto bg-gray-900 text-gray-300">
+  <div class="mx-auto grid max-w-3xl grid-cols-1 gap-7 px-5 pb-7 pt-10 sm:grid-cols-2 sm:gap-8">
+    <div>
+      <p class="mb-2 text-lg font-bold tracking-wide text-white">{SITE_NAME}</p>
+      <p class="m-0 text-sm text-gray-400">コーポレートサイト（仮）</p>
+    </div>
+    <nav aria-label="サイトマップ">
+      <p class="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">サイトマップ</p>
+      <ul class="m-0 grid list-none gap-2 p-0">
+        {
+          NAV_ITEMS.map((item) => (
+            <li>
+              <a
+                href={sitePath(item.href)}
+                class="text-sm text-gray-200 no-underline hover:text-white hover:underline"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+  <div class="mx-auto max-w-3xl border-t border-gray-700 px-5 pb-6 pt-4 text-xs text-gray-400">
+    <small>&copy; {year} {SITE_NAME}. All rights reserved.</small>
+  </div>
+</footer>
